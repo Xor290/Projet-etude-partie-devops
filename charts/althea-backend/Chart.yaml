@@ -1,0 +1,6 @@
+apiVersion: v2
+name: althea-backend
+description: Althea System SaaS — API Symfony 8 / API Platform
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

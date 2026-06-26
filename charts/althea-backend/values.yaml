@@ -1,0 +1,56 @@
+replicaCount: 1
+
+image:
+  repository: your-registry/althea-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+  className: ""
+  host: api.althea.local
+  path: /
+  tls: []
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+# Variables d'environnement non-sensibles
+env:
+  APP_ENV: prod
+  APP_SHARE_DIR: var/share
+  DEFAULT_URI: http://localhost
+  CORS_ALLOW_ORIGIN: "^https?://.*$"
+
+# Valeurs sensibles — à surcharger par environnement ou via un Secret externe
+secret:
+  APP_SECRET: "changeme"
+  DATABASE_URL: "postgresql://app:password@postgres:5432/althea_system"
+  JWT_PASSPHRASE: "changeme"
+  MAILER_DSN: "smtp://localhost:25"
+  STRIPE_SECRET_KEY: ""
+  STRIPE_WEBHOOK_SECRET: ""
+
+# Clés JWT (contenu des fichiers PEM en base64 ou texte)
+jwt:
+  privateKey: ""
+  publicKey: ""
+
+# Migration Doctrine au démarrage (init container)
+migrations:
+  enabled: true
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 70

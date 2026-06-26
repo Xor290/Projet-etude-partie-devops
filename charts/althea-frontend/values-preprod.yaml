@@ -1,0 +1,8 @@
+image:
+  tag: pre-prod
+
+apiUrl: "https://api-preprod.althea.local/api"
+
+ingress:
+  enabled: true
+  host: preprod.althea.local

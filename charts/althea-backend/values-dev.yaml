@@ -1,0 +1,13 @@
+replicaCount: 1
+
+image:
+  tag: dev
+
+env:
+  APP_ENV: dev
+  DEFAULT_URI: http://api-dev.althea.local
+  CORS_ALLOW_ORIGIN: "^https?://.*$"
+
+ingress:
+  enabled: true
+  host: api-dev.althea.local

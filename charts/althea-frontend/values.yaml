@@ -1,0 +1,35 @@
+replicaCount: 1
+
+image:
+  repository: your-registry/althea-frontend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  host: althea.local
+  path: /
+  tls: []
+
+# URL de l'API backend — doit correspondre à l'environnement
+# Baked dans l'image au build (VITE_API_URL build-arg)
+apiUrl: "http://localhost:8000/api"
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "200m"
+    memory: "256Mi"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 70

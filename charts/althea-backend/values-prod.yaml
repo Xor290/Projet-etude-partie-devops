@@ -1,0 +1,31 @@
+replicaCount: 2
+
+image:
+  tag: prod
+
+env:
+  APP_ENV: prod
+  DEFAULT_URI: https://api.althea.com
+  CORS_ALLOW_ORIGIN: "^https://althea\\.com$"
+
+ingress:
+  enabled: true
+  host: api.althea.com
+  tls:
+    - secretName: althea-api-tls
+      hosts:
+        - api.althea.com
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1Gi"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70

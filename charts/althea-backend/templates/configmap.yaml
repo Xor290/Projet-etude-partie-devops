@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "althea-backend.fullname" . }}
+  labels:
+    {{- include "althea-backend.labels" . | nindent 4 }}
+data:
+  APP_ENV: {{ .Values.env.APP_ENV | quote }}
+  APP_SHARE_DIR: {{ .Values.env.APP_SHARE_DIR | quote }}
+  DEFAULT_URI: {{ .Values.env.DEFAULT_URI | quote }}
+  CORS_ALLOW_ORIGIN: {{ .Values.env.CORS_ALLOW_ORIGIN | quote }}
+  JWT_SECRET_KEY: "%kernel.project_dir%/config/jwt/private.pem"
+  JWT_PUBLIC_KEY: "%kernel.project_dir%/config/jwt/public.pem"
