@@ -1,0 +1,10 @@
+/vendor/
+/var/
+/.env
+/.env.local
+/.env.*.local
+/config/jwt/private.pem
+/config/jwt/public.pem
+/public/bundles/
+/.php-cs-fixer.cache
+/.phpunit.result.cache
