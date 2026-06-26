@@ -1,0 +1,23 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1
+
+filters:
+  tag:kubernetes.io/cluster/eks-academy: owned
+  instance-state-name: running
+
+# Groupes dynamiques par tag et type
+keyed_groups:
+  - key: tags.Name
+    prefix: tag
+    separator: ""
+  - key: instance_type
+    prefix: type
+    separator: ""
+
+# Utilise l'IP privée (noeuds dans subnets privés)
+hostnames:
+  - private-ip-address
+
+compose:
+  ansible_host: private_ip_address
