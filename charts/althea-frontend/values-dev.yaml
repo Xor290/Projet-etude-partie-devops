@@ -1,0 +1,8 @@
+image:
+  tag: dev
+
+apiUrl: "http://api-dev.althea.local/api"
+
+ingress:
+  enabled: true
+  host: dev.althea.local

@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  tag: pre-prod
+
+env:
+  APP_ENV: prod
+  DEFAULT_URI: https://api-preprod.althea.local
+  CORS_ALLOW_ORIGIN: "^https?://althea-preprod\\..*$"
+
+ingress:
+  enabled: true
+  host: api-preprod.althea.local
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+  limits:
+    cpu: "750m"
+    memory: "768Mi"
