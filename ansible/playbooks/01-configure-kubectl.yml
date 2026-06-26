@@ -1,0 +1,51 @@
+---
+# Playbook : configure kubectl en local et vérifie la connectivité au cluster
+- name: Configurer kubectl pour EKS
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    region: "us-east-1"
+    cluster_name: "eks-academy"
+
+  tasks:
+    - name: Récupérer les infos du cluster EKS via Terraform output
+      command: terraform -chdir=../../terraform output -raw cluster_name
+      register: tf_cluster_name
+      changed_when: false
+      ignore_errors: true
+
+    - name: Utiliser le nom du cluster (Terraform ou variable)
+      set_fact:
+        eks_cluster_name: "{{ tf_cluster_name.stdout | default(cluster_name) }}"
+
+    - name: Mettre à jour kubeconfig
+      command: >
+        aws eks update-kubeconfig
+        --name {{ eks_cluster_name }}
+        --region {{ region }}
+      register: kubeconfig_result
+
+    - name: Afficher résultat kubeconfig
+      debug:
+        msg: "{{ kubeconfig_result.stdout }}"
+
+    - name: Vérifier la connexion au cluster (noeuds)
+      command: kubectl get nodes -o wide
+      register: nodes_output
+      retries: 5
+      delay: 15
+      until: nodes_output.rc == 0
+
+    - name: Afficher les noeuds
+      debug:
+        msg: "{{ nodes_output.stdout_lines }}"
+
+    - name: Vérifier les namespaces
+      command: kubectl get namespaces
+      register: ns_output
+
+    - name: Afficher les namespaces
+      debug:
+        msg: "{{ ns_output.stdout_lines }}"
